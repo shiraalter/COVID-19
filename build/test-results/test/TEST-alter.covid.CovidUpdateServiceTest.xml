@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="alter.covid.CovidUpdateServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-05-05T18:31:57" hostname="LAPTOP-61KN8IT6" time="4.799">
+  <properties/>
+  <testcase name="getCovidUpdate" classname="alter.covid.CovidUpdateServiceTest" time="4.799"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
