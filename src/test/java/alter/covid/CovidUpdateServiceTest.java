@@ -35,9 +35,5 @@ public class CovidUpdateServiceTest {
         assertNotNull(covidInfo.deaths);
         assertNotNull(covidInfo.recovered);
 
-
-
-
-
     }
 }

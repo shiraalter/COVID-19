@@ -10,7 +10,6 @@ public class CovidUpdateFeed {
 
    List<Result> result;
 
-
     class Result{
 
         int confirmed;
