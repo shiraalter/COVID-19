@@ -1,3 +1,4 @@
+
 package alter.covid;
 
 import retrofit2.Call;
@@ -12,8 +13,9 @@ public interface CovidUpdateService {
     @GET("/api/v1/country/{country}/timeseries/{startDate}/{endDate}")
 
     Call<CovidUpdateFeed> getCovidUpdate(@Path(value = "country") String countryCode,
-                                                 @Path(value = "startDate") String startDate,
-                                                 @Path(value = "endDate") String endDate);
+                                         @Path(value = "startDate") String startDate,
+                                         @Path(value = "endDate") String endDate);
 
 }
+
 

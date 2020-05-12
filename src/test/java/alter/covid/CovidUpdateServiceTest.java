@@ -21,16 +21,13 @@ public class CovidUpdateServiceTest {
         CovidUpdateService service = retrofit.create(CovidUpdateService.class);
 
         //when
-        CovidUpdateFeed feed = service.getCovidUpdate
-                ("USA", "2020-04-01","2020-04-05").execute().body();
+        CovidUpdateFeed feed = service.getCovidUpdate("USA", "2020-04-01", "2020-04-02").execute().body();
 
         //then
         assertNotNull(feed);
         List<CovidUpdateFeed.Result> covidResults = feed.result;
         assertFalse(covidResults.isEmpty());
-
         CovidUpdateFeed.Result covidInfo = covidResults.get(0);
-        assertNotNull(covidInfo.date);
         assertNotNull(covidInfo.confirmed);
         assertNotNull(covidInfo.deaths);
         assertNotNull(covidInfo.recovered);

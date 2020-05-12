@@ -1,3 +1,4 @@
+
 package alter.covid;
 
 import retrofit2.Call;
@@ -9,27 +10,26 @@ import javax.swing.*;
 public class CovidUpdateController {
 
     private CovidUpdateService service;
-    CovidUpdateFeed.Result covidResults;
+    private CovidView view;
 
 
-    public CovidUpdateController(CovidUpdateService service) {
+    public CovidUpdateController(CovidUpdateService service, CovidView view) {
         this.service = service;
-     }
+        this.view = view;
+    }
 
-    public void requestData(String country, String startDate, String endDate, JLabel countryLabel, JLabel confirmedLabel, JLabel deathsLabel, JLabel recoveredLabel, JLabel dateLabel){
+    public void requestData(String country, String startDate, String endDate, JLabel countryLabel){
         service.getCovidUpdate(country, startDate, endDate ).enqueue(new Callback<CovidUpdateFeed>() {
 
             @Override
             public void onResponse(Call<CovidUpdateFeed> call, Response<CovidUpdateFeed> response) {
                 countryLabel.setText("Country: " + country);
-                for (int i = 0; i < response.body().result.size() ; i++) {
-                    covidResults = response.body().result.get(i);
-                    dateLabel.setText("Date: " + covidResults.date);
-                    confirmedLabel.setText("Confirmed Cases: " + (covidResults.confirmed));
-                    deathsLabel.setText("Deaths: " + covidResults.deaths);
-                    recoveredLabel.setText("Recovered: " + (covidResults.recovered));
-                }
+                //loop through list of result objects
+                /* for (int i = 0; i < response.body().result.size() ; i++) {*/
+                CovidUpdateFeed.Result covidResults = response.body().result.get(0);
+                view.setCovid(covidResults);
 
+                // }
 
 
             }

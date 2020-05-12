@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+
+
 public class CovidFrame extends JFrame {
 
     CovidUpdateController controller;
@@ -45,13 +47,17 @@ public class CovidFrame extends JFrame {
         setTitle("COVID-19 Update");
         setLayout(new BorderLayout());
 
+
+
+        CovidView view = new CovidView();
+        add(view, BorderLayout.CENTER);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://covidapi.info/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         CovidUpdateService service = retrofit.create(CovidUpdateService.class);
+        CovidUpdateController controller = new CovidUpdateController(service, view);
 
-        controller = new CovidUpdateController(service );
 
 
         // create UI
@@ -91,33 +97,26 @@ public class CovidFrame extends JFrame {
         topPanel.add(enterButton);
         add(topPanel, BorderLayout.NORTH);
 
+        //add country to middle
+        middlePanel = new JPanel();
+        infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+        countryOutput = new JLabel();
+        infoPanel.add(countryOutput);
+        middlePanel.add(infoPanel, BorderLayout.CENTER);
+        add(middlePanel, BorderLayout.CENTER);
+
+
         //action listener --> retrieve data
         enterButton.addActionListener(actionEvent -> getData(controller));
 
-        //info display
-        middlePanel = new JPanel();
-        infoPanel = new JPanel();
 
-        confirmedLabel = new JLabel();
-        countryOutput = new JLabel();
-        recoveredLabel = new JLabel();
-        deathsLabel = new JLabel();
-        dateLabel = new JLabel();
-
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        infoPanel.add(countryOutput);
-        infoPanel.add(dateLabel);
-        infoPanel.add(confirmedLabel);
-        infoPanel.add(recoveredLabel);
-        infoPanel.add(deathsLabel);
-        middlePanel.add(infoPanel, BorderLayout.CENTER);
-        add(middlePanel, BorderLayout.CENTER);
 
     }
 
     //request data from controller
     private void getData(CovidUpdateController controller) {
-        controller.requestData(countryField.getText().toUpperCase(), startField.getText(), endField.getText(),  countryOutput, confirmedLabel, deathsLabel, recoveredLabel, dateLabel);
+        controller.requestData(countryField.getText().toUpperCase(), startField.getText(), endField.getText(),  countryOutput);
 
     }
 

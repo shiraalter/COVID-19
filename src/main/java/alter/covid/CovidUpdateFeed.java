@@ -1,3 +1,4 @@
+
 package alter.covid;
 
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 public class CovidUpdateFeed {
 
 
-   List<Result> result;
+    ArrayList<Result> result;
 
     class Result{
 
