@@ -7,34 +7,30 @@ import retrofit2.Response;
 import javax.swing.*;
 
 public class CovidUpdateController {
-    private JLabel countryLabel;
-    private JLabel confirmedLabel;
-    private JLabel deathsLabel;
-    private JLabel recoveredLabel;
+
     private CovidUpdateService service;
     CovidUpdateFeed.Result covidResults;
 
 
-    public CovidUpdateController(CovidUpdateService service, JLabel countryLabel, JLabel confirmedLabel, JLabel deathsLabel, JLabel recoveredLabel) {
+    public CovidUpdateController(CovidUpdateService service) {
         this.service = service;
-        this.countryLabel = countryLabel;
-        this.confirmedLabel = confirmedLabel;
-        this.deathsLabel = deathsLabel;
-        this.recoveredLabel = recoveredLabel;
+     }
 
-
-    }
-
-    public void requestData(String country, String startDate, String endDate){
+    public void requestData(String country, String startDate, String endDate, JLabel countryLabel, JLabel confirmedLabel, JLabel deathsLabel, JLabel recoveredLabel, JLabel dateLabel){
         service.getCovidUpdate(country, startDate, endDate ).enqueue(new Callback<CovidUpdateFeed>() {
 
             @Override
             public void onResponse(Call<CovidUpdateFeed> call, Response<CovidUpdateFeed> response) {
-                covidResults = response.body().result.get(0);
                 countryLabel.setText("Country: " + country);
-                confirmedLabel.setText("Confirmed Cases: " + String.valueOf(covidResults.confirmed));
-                deathsLabel.setText("Deaths: " + String.valueOf(covidResults.deaths));
-                recoveredLabel.setText("Recovered: " + String.valueOf(covidResults.recovered));
+                for (int i = 0; i < response.body().result.size() ; i++) {
+                    covidResults = response.body().result.get(i);
+                    dateLabel.setText("Date: " + covidResults.date);
+                    confirmedLabel.setText("Confirmed Cases: " + (covidResults.confirmed));
+                    deathsLabel.setText("Deaths: " + covidResults.deaths);
+                    recoveredLabel.setText("Recovered: " + (covidResults.recovered));
+                }
+
+
 
             }
 

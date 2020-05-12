@@ -12,11 +12,12 @@ public class CovidFrame extends JFrame {
 
     CovidUpdateController controller;
 
-    public JLabel message;
+    private JLabel message;
     public JLabel confirmedLabel;
     public JLabel countryOutput;
     public JLabel deathsLabel;
     public JLabel recoveredLabel;
+    public JLabel dateLabel;
     public JButton enterButton;
 
     private JPanel topPanel;
@@ -50,7 +51,7 @@ public class CovidFrame extends JFrame {
                 .build();
         CovidUpdateService service = retrofit.create(CovidUpdateService.class);
 
-        controller = new CovidUpdateController(service, countryOutput, confirmedLabel, deathsLabel, recoveredLabel );
+        controller = new CovidUpdateController(service );
 
 
         // create UI
@@ -96,13 +97,16 @@ public class CovidFrame extends JFrame {
         //info display
         middlePanel = new JPanel();
         infoPanel = new JPanel();
+
         confirmedLabel = new JLabel();
         countryOutput = new JLabel();
         recoveredLabel = new JLabel();
         deathsLabel = new JLabel();
+        dateLabel = new JLabel();
 
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.add(countryOutput);
+        infoPanel.add(dateLabel);
         infoPanel.add(confirmedLabel);
         infoPanel.add(recoveredLabel);
         infoPanel.add(deathsLabel);
@@ -113,7 +117,7 @@ public class CovidFrame extends JFrame {
 
     //request data from controller
     private void getData(CovidUpdateController controller) {
-        controller.requestData(countryField.getText().toUpperCase(), startField.getText(), endField.getText());
+        controller.requestData(countryField.getText().toUpperCase(), startField.getText(), endField.getText(),  countryOutput, confirmedLabel, deathsLabel, recoveredLabel, dateLabel);
 
     }
 
