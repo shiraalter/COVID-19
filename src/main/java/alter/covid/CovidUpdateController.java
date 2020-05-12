@@ -24,16 +24,13 @@ public class CovidUpdateController {
             @Override
             public void onResponse(Call<CovidUpdateFeed> call, Response<CovidUpdateFeed> response) {
                 countryLabel.setText("Country: " + country);
-                //loop through list of result objects
-                /* for (int i = 0; i < response.body().result.size() ; i++) {*/
-                CovidUpdateFeed.Result covidResults = response.body().result.get(0);
-                view.setCovid(covidResults);
 
-                // }
-
+                for (int i = 0; i < response.body().result.size(); i++){
+                    CovidUpdateFeed.Result covidResults = response.body().result.get(i);
+                    view.setCovid(covidResults);
 
             }
-
+        }
             @Override
             public void onFailure(Call<CovidUpdateFeed> call, Throwable t) {
                 t.printStackTrace();

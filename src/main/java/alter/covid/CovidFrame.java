@@ -12,8 +12,6 @@ import java.io.IOException;
 
 public class CovidFrame extends JFrame {
 
-    CovidUpdateController controller;
-
     private JLabel message;
     public JLabel confirmedLabel;
     public JLabel countryOutput;
@@ -38,30 +36,22 @@ public class CovidFrame extends JFrame {
     public JTextField endField;
 
 
-
-
-
     public CovidFrame() throws IOException {
         setSize(700,600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("COVID-19 Update");
         setLayout(new BorderLayout());
 
-
-
         CovidView view = new CovidView();
-        add(view, BorderLayout.CENTER);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://covidapi.info/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         CovidUpdateService service = retrofit.create(CovidUpdateService.class);
         CovidUpdateController controller = new CovidUpdateController(service, view);
+        add(view, BorderLayout.CENTER);
 
 
-
-        // create UI
-        //**MAKE ERROR MSSG ABOUT ISO
 
         topPanel = new JPanel();
         message = new JLabel("Welcome to the COVID-19 Tracker." +
