@@ -9,9 +9,15 @@ import java.awt.*;
 import java.io.IOException;
 
 public class CovidFrame extends JFrame {
-    //declare public frame components
+
+    CovidUpdateController controller;
 
     public JLabel message;
+    public JLabel confirmedLabel;
+    public JLabel countryOutput;
+    public JLabel deathsLabel;
+    public JLabel recoveredLabel;
+    public JButton enterButton;
 
     private JPanel topPanel;
     private JPanel inputPanel;
@@ -27,11 +33,8 @@ public class CovidFrame extends JFrame {
     public JTextField startField;
     private JLabel endLabel;
     public JTextField endField;
-    public JButton enterButton;
-    public static JLabel confirmedLabel;
-    public static JLabel countryOutput;
-    public static JLabel deathsLabel;
-    public static JLabel recoveredLabel;
+
+
 
 
 
@@ -47,7 +50,7 @@ public class CovidFrame extends JFrame {
                 .build();
         CovidUpdateService service = retrofit.create(CovidUpdateService.class);
 
-        CovidUpdateController controller = new CovidUpdateController(service);
+        controller = new CovidUpdateController(service, countryOutput, confirmedLabel, deathsLabel, recoveredLabel );
 
 
         // create UI

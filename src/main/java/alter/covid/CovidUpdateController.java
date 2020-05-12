@@ -4,11 +4,25 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CovidUpdateController {
-    private CovidUpdateService service;
+import javax.swing.*;
 
-    public CovidUpdateController(CovidUpdateService service) {
+public class CovidUpdateController {
+    private JLabel countryLabel;
+    private JLabel confirmedLabel;
+    private JLabel deathsLabel;
+    private JLabel recoveredLabel;
+    private CovidUpdateService service;
+    CovidUpdateFeed.Result covidResults;
+
+
+    public CovidUpdateController(CovidUpdateService service, JLabel countryLabel, JLabel confirmedLabel, JLabel deathsLabel, JLabel recoveredLabel) {
         this.service = service;
+        this.countryLabel = countryLabel;
+        this.confirmedLabel = confirmedLabel;
+        this.deathsLabel = deathsLabel;
+        this.recoveredLabel = recoveredLabel;
+
+
     }
 
     public void requestData(String country, String startDate, String endDate){
@@ -16,11 +30,11 @@ public class CovidUpdateController {
 
             @Override
             public void onResponse(Call<CovidUpdateFeed> call, Response<CovidUpdateFeed> response) {
-                CovidUpdateFeed.Result covidResults = response.body().result.get(0);
-                CovidFrame.countryOutput.setText("Country: " + country);
-                CovidFrame.confirmedLabel.setText("Total Confirmed Cases: " + String.valueOf(covidResults.confirmed));
-                CovidFrame.deathsLabel.setText("Total Deaths: " + String.valueOf(covidResults.deaths));
-                CovidFrame.recoveredLabel.setText("Total Recovered: " + String.valueOf(covidResults.recovered));
+                covidResults = response.body().result.get(0);
+                countryLabel.setText("Country: " + country);
+                confirmedLabel.setText("Confirmed Cases: " + String.valueOf(covidResults.confirmed));
+                deathsLabel.setText("Deaths: " + String.valueOf(covidResults.deaths));
+                recoveredLabel.setText("Recovered: " + String.valueOf(covidResults.recovered));
 
             }
 
