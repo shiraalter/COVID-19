@@ -8,14 +8,17 @@ import java.util.ArrayList;
 
 public class CovidView extends JComponent {
     private ArrayList<CovidUpdateFeed.Result> covid;
-    public ArrayList<Integer> deathArray = new ArrayList<>();       //new array list to hold values of the deaths
+    public ArrayList<Integer> deathArray = new ArrayList<>();
+    public ArrayList<Integer> recoveredArray = new ArrayList<>();
+
 
 
     public void setCovid(ArrayList<CovidUpdateFeed.Result> covid) {
         this.covid = covid;
 
         for (int i = 0; i < covid.size(); i++) {
-            deathArray.add(covid.get(i).deaths);        // add deaths from each obj into new array list
+            deathArray.add(covid.get(i).deaths);
+            recoveredArray.add(covid.get(i).recovered);
         }
         repaint();
     }
@@ -53,8 +56,35 @@ public class CovidView extends JComponent {
 
         //draw data for deaths
         drawDeathData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
+        drawRecoveredData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
 
     }
+
+    private void drawRecoveredData(Graphics g, int totalXPixels, int totalYPixels, int maxYValue, int xLeftBoundary, int xIncrement, int yIncrement) {
+        int x1, x2, y1, y2;
+
+        //set origin coordinates
+        x1 = xLeftBoundary;
+        y1 = recoveredArray.get(0)* totalYPixels/maxYValue;  //y coordinate of first death in array
+
+        //compute and plot points for death data
+        for (int i = 0; i < recoveredArray.size(); i++) {
+            x2 = xLeftBoundary + xIncrement * i;
+            y2 = recoveredArray.get(i) * totalYPixels/maxYValue;
+
+            g.setColor(Color.BLACK);                  //dots between data points
+            g.fillOval(x2,y2,5,5);
+
+            g.setColor(Color.GREEN);
+            g.drawLine(x1,y1,x2,y2);
+
+            //set coordinates for next data points
+            x1 = x2;
+            y1 = y2;
+
+        }
+    }
+
 
     private void drawDeathData(Graphics g, int totalXPixels, int totalYPixels, int maxYValue, int xLeftBoundary, int xIncrement, int yIncrement) {
         int x1, x2, y1, y2;
