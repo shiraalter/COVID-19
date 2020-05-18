@@ -52,21 +52,21 @@ public class CovidView extends JComponent {
         int yIncrement = totalYPixels/maxYValue;           //split y axis by max value (5000)
 
         //draw data for deaths
-        drawDeathData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, yBottomBoundary, xIncrement, yIncrement);
+        drawDeathData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
 
     }
 
-    private void drawDeathData(Graphics g, int totalX, int totalY, int maxYValue, int xLeft, int yBottom, int xIncrement, int yIncrement) {
+    private void drawDeathData(Graphics g, int totalXPixels, int totalYPixels, int maxYValue, int xLeftBoundary, int xIncrement, int yIncrement) {
         int x1, x2, y1, y2;
 
         //set origin coordinates
-        x1 = xLeft;
-        y1 = deathArray.get(0)* totalY/maxYValue;  //y coordinate of first death in array
+        x1 = xLeftBoundary;
+        y1 = deathArray.get(0)* totalYPixels/maxYValue;  //y coordinate of first death in array
 
         //compute and plot points for death data
         for (int i = 0; i < deathArray.size(); i++) {
-            x2 = xLeft + xIncrement * i;
-            y2 = deathArray.get(i) * totalY/maxYValue;
+            x2 = xLeftBoundary + xIncrement * i;
+            y2 = deathArray.get(i) * totalYPixels/maxYValue;
 
             g.setColor(Color.RED);                  //dots between data points
             g.fillOval(x2,y2,5,5);

@@ -86,7 +86,7 @@ public class CovidFrame extends JFrame {
         countryOutput = new JLabel();
         topPanel.add(countryOutput);
         add(topPanel, BorderLayout.NORTH);
-        
+
         add(view, BorderLayout.CENTER);
 
         //action listener --> retrieve data
