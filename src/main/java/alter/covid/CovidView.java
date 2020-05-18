@@ -15,8 +15,6 @@ public class CovidView extends JComponent {
 
     public void setCovid(ArrayList<CovidUpdateFeed.Result> covid) {
         this.covid = covid;
-
-
         repaint();
     }
 
@@ -50,14 +48,7 @@ public class CovidView extends JComponent {
         g.drawLine(xLeftBoundary, yBottomBoundary, xLeftBoundary, yTopBoundary);
         g.drawLine(xLeftBoundary, yBottomBoundary, xRightBoundary, yBottomBoundary);
 
-        //label axis
-        g.setColor(Color.black);
-        g.setFont(new Font("SansSerif", Font.BOLD, 16));
-        g.drawString("Date", xLeftBoundary + 300, yBottomBoundary + 20);
-
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("SansSerif", Font.BOLD, 16));
-        g.drawString("Cases", xLeftBoundary-60, yBottomBoundary-350);
+        labelAxis(g, xLeftBoundary, yBottomBoundary);
 
 
         //calculate total pixels on x/y axis
@@ -73,6 +64,17 @@ public class CovidView extends JComponent {
         drawRecoveredData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
         drawConfirmedData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
 
+    }
+
+    private void labelAxis(Graphics g, int xLeftBoundary, int yBottomBoundary) {
+        //label axis
+        g.setColor(Color.black);
+        g.setFont(new Font("SansSerif", Font.BOLD, 16));
+        g.drawString("Date", xLeftBoundary + 300, yBottomBoundary + 20);
+
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("SansSerif", Font.BOLD, 16));
+        g.drawString("Cases", xLeftBoundary-60, yBottomBoundary-350);
     }
 
     public void clearDataInArrays() {
