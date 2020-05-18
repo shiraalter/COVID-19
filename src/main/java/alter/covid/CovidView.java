@@ -54,7 +54,7 @@ public class CovidView extends JComponent {
         int xIncrement = totalXPixels/covid.size();        // split by how many objects
         int yIncrement = totalYPixels/maxYValue;           //split y axis by max value (5000)
 
-        //draw data for deaths
+        
         drawDeathData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
         drawRecoveredData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
 
@@ -65,9 +65,9 @@ public class CovidView extends JComponent {
 
         //set origin coordinates
         x1 = xLeftBoundary;
-        y1 = recoveredArray.get(0)* totalYPixels/maxYValue;  //y coordinate of first death in array
+        y1 = recoveredArray.get(0)* totalYPixels/maxYValue;  //y coordinate of first recovered in array
 
-        //compute and plot points for death data
+        //compute and plot points for recovered data
         for (int i = 0; i < recoveredArray.size(); i++) {
             x2 = xLeftBoundary + xIncrement * i;
             y2 = recoveredArray.get(i) * totalYPixels/maxYValue;
