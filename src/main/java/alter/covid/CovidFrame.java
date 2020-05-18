@@ -5,6 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import javax.sound.midi.MidiDevice;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.io.IOException;
 
@@ -26,7 +27,7 @@ public class CovidFrame extends JFrame {
     private JPanel rightPanel;
     private JPanel bottomPanel;
     private JPanel middlePanel;
-    private JPanel infoPanel;
+    private JLabel colors;
 
     private JLabel countryLabel;
     public JTextField countryField;
@@ -49,6 +50,12 @@ public class CovidFrame extends JFrame {
                 .build();
         CovidUpdateService service = retrofit.create(CovidUpdateService.class);
         CovidUpdateController controller = new CovidUpdateController(service, view);
+
+        add(view, BorderLayout.CENTER);                                                 //add over here ?
+
+        colors = new JLabel("Color Key: GREEN = recovered. ORANGE = confirmed. BLUE = deaths" );
+        add(colors, BorderLayout.SOUTH);
+
 
 
         topPanel = new JPanel();
@@ -87,12 +94,8 @@ public class CovidFrame extends JFrame {
         topPanel.add(countryOutput);
         add(topPanel, BorderLayout.NORTH);
 
-        add(view, BorderLayout.CENTER);
-
         //action listener --> retrieve data
         enterButton.addActionListener(actionEvent -> getData(controller));
-
-
 
 
 
@@ -101,6 +104,7 @@ public class CovidFrame extends JFrame {
     //request data from controller
     private void getData(CovidUpdateController controller) {
         controller.requestData(countryField.getText().toUpperCase(), startField.getText(), endField.getText(),  countryOutput);
+
     }
 
     public static void main(String[] args) throws IOException {

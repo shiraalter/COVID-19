@@ -10,16 +10,14 @@ public class CovidView extends JComponent {
     private ArrayList<CovidUpdateFeed.Result> covid;
     public ArrayList<Integer> deathArray = new ArrayList<>();
     public ArrayList<Integer> recoveredArray = new ArrayList<>();
+    public ArrayList<Integer> confirmedArray = new ArrayList<>();
 
 
 
     public void setCovid(ArrayList<CovidUpdateFeed.Result> covid) {
         this.covid = covid;
 
-        for (int i = 0; i < covid.size(); i++) {
-            deathArray.add(covid.get(i).deaths);
-            recoveredArray.add(covid.get(i).recovered);
-        }
+
         repaint();
     }
 
@@ -33,12 +31,18 @@ public class CovidView extends JComponent {
             return;
         }
 
+        for (int i = 0; i < covid.size(); i++) {
+            deathArray.add(covid.get(i).deaths);
+            recoveredArray.add(covid.get(i).recovered);
+            confirmedArray.add(covid.get(i).confirmed);
+        }
+
         //CREATE AXIS
-        int maxYValue = 5000;                   //max cases
+        int maxYValue = 50000;                   //max cases
         int xLeftBoundary = 50;                 //left cushion
-        int xRightBoundary = getWidth() - 50;   //set x axis right boundary/cushion
+        int xRightBoundary = getWidth() - 70;   //set x axis right boundary/cushion
         int yTopBoundary = 10;                  //top cushion
-        int yBottomBoundary = getHeight() - 50; //set y axis lower boundary
+        int yBottomBoundary = getHeight() - 70; //set y axis lower boundary
 
         //draw axis
         g.setColor(Color.BLACK);
@@ -54,10 +58,36 @@ public class CovidView extends JComponent {
         int xIncrement = totalXPixels/covid.size();        // split by how many objects
         int yIncrement = totalYPixels/maxYValue;           //split y axis by max value (5000)
 
-        
+        //draw graphs
         drawDeathData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
         drawRecoveredData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
+        drawConfirmedData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
 
+    }
+
+    private void drawConfirmedData(Graphics g, int totalXPixels, int totalYPixels, int maxYValue, int xLeftBoundary, int xIncrement, int yIncrement) {
+        int x1, x2, y1, y2;
+
+        //set origin coordinates
+        x1 = xLeftBoundary;
+        y1 = confirmedArray.get(0)* totalYPixels/maxYValue;  //y coordinate of first confirmed in array
+
+        //compute and plot points for recovered data
+        for (int i = 0; i < confirmedArray.size(); i++) {
+            x2 = xLeftBoundary + xIncrement * i;
+            y2 = confirmedArray.get(i) * totalYPixels / maxYValue;
+
+            g.setColor(new Color(134, 94, 0, 195));
+            g.fillOval(x2, y2, 5, 5);
+
+            g.setColor(Color.ORANGE);
+            g.drawLine(x1, y1, x2, y2);
+
+            //set coordinates for next data points
+            x1 = x2;
+            y1 = y2;
+
+        }
     }
 
     private void drawRecoveredData(Graphics g, int totalXPixels, int totalYPixels, int maxYValue, int xLeftBoundary, int xIncrement, int yIncrement) {
