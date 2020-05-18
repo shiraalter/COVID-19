@@ -1,6 +1,5 @@
 package alter.covid;
 
-import javafx.scene.chart.LineChart;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,15 +38,26 @@ public class CovidView extends JComponent {
 
         //CREATE AXIS
         int maxYValue = 50000;                   //max cases
-        int xLeftBoundary = 50;                 //left cushion
+        int xLeftBoundary = 70;                 //left cushion
         int xRightBoundary = getWidth() - 70;   //set x axis right boundary/cushion
         int yTopBoundary = 10;                  //top cushion
         int yBottomBoundary = getHeight() - 70; //set y axis lower boundary
 
+
         //draw axis
         g.setColor(Color.BLACK);
-        g.drawLine(xLeftBoundary, yBottomBoundary, xLeftBoundary, yTopBoundary);         //y
-        g.drawLine(xLeftBoundary, yBottomBoundary, xRightBoundary, yBottomBoundary);    //x
+        g.drawLine(xLeftBoundary, yBottomBoundary, xLeftBoundary, yTopBoundary);
+        g.drawLine(xLeftBoundary, yBottomBoundary, xRightBoundary, yBottomBoundary);
+
+        //label axis
+        g.setColor(Color.black);
+        g.setFont(new Font("SansSerif", Font.BOLD, 16));
+        g.drawString("Date", xLeftBoundary + 300, yBottomBoundary + 20);
+
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("SansSerif", Font.BOLD, 16));
+        g.drawString("Cases", xLeftBoundary-60, yBottomBoundary-350);
+
 
         //calculate total pixels on x/y axis
         int totalXPixels = xRightBoundary - xLeftBoundary + 1;
@@ -69,12 +79,12 @@ public class CovidView extends JComponent {
 
         //set origin coordinates
         x1 = xLeftBoundary;
-        y1 = confirmedArray.get(0)* totalYPixels/maxYValue;  //y coordinate of first confirmed in array
+        y1 = confirmedArray.get(0)* yIncrement;  //y coordinate of first confirmed in array
 
         //compute and plot points for recovered data
         for (int i = 0; i < confirmedArray.size(); i++) {
             x2 = xLeftBoundary + xIncrement * i;
-            y2 = confirmedArray.get(i) * totalYPixels / maxYValue;
+            y2 = confirmedArray.get(i) * yIncrement;
 
             g.setColor(new Color(134, 94, 0, 195));
             g.fillOval(x2, y2, 5, 5);
