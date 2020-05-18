@@ -6,6 +6,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class CovidUpdateController {
 
@@ -23,13 +24,11 @@ public class CovidUpdateController {
 
             @Override
             public void onResponse(Call<CovidUpdateFeed> call, Response<CovidUpdateFeed> response) {
-                countryLabel.setText("Country: " + country);
-
-                for (int i = 0; i < response.body().result.size(); i++){
-                    CovidUpdateFeed.Result covidResults = response.body().result.get(i);
+                    countryLabel.setText("Country: " + country);
+                    ArrayList<CovidUpdateFeed.Result> covidResults = response.body().result;
                     view.setCovid(covidResults);
 
-            }
+
         }
             @Override
             public void onFailure(Call<CovidUpdateFeed> call, Throwable t) {

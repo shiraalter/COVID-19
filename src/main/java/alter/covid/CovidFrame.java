@@ -37,7 +37,7 @@ public class CovidFrame extends JFrame {
 
 
     public CovidFrame() throws IOException {
-        setSize(700,600);
+        setSize(900,900);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("COVID-19 Update");
         setLayout(new BorderLayout());
@@ -49,8 +49,6 @@ public class CovidFrame extends JFrame {
                 .build();
         CovidUpdateService service = retrofit.create(CovidUpdateService.class);
         CovidUpdateController controller = new CovidUpdateController(service, view);
-        add(view, BorderLayout.CENTER);
-
 
 
         topPanel = new JPanel();
@@ -85,20 +83,16 @@ public class CovidFrame extends JFrame {
         inputPanel.add(endField);
         topPanel.add(inputPanel, BorderLayout.CENTER);
         topPanel.add(enterButton);
-        add(topPanel, BorderLayout.NORTH);
-
-        //add country to middle
-        middlePanel = new JPanel();
-        infoPanel = new JPanel();
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         countryOutput = new JLabel();
-        infoPanel.add(countryOutput);
-        middlePanel.add(infoPanel, BorderLayout.CENTER);
-        add(middlePanel, BorderLayout.CENTER);
-
+        topPanel.add(countryOutput);
+        add(topPanel, BorderLayout.NORTH);
+        
+        add(view, BorderLayout.CENTER);
 
         //action listener --> retrieve data
         enterButton.addActionListener(actionEvent -> getData(controller));
+
+
 
 
 
@@ -107,11 +101,11 @@ public class CovidFrame extends JFrame {
     //request data from controller
     private void getData(CovidUpdateController controller) {
         controller.requestData(countryField.getText().toUpperCase(), startField.getText(), endField.getText(),  countryOutput);
-
     }
 
     public static void main(String[] args) throws IOException {
         new CovidFrame().setVisible(true);
+
     }
 
 
