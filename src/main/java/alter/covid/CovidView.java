@@ -30,6 +30,7 @@ public class CovidView extends JComponent {
             return;
         }
 
+        // populate arrays from the covid list
         for (int i = 0; i < covid.size(); i++) {
             deathArray.add(covid.get(i).deaths);
             recoveredArray.add(covid.get(i).recovered);
@@ -37,7 +38,7 @@ public class CovidView extends JComponent {
         }
 
         //CREATE AXIS
-        int maxYValue = 50000;                   //max cases
+        int maxYValue = 300000;                   //max cases
         int xLeftBoundary = 70;                 //left cushion
         int xRightBoundary = getWidth() - 70;   //set x axis right boundary/cushion
         int yTopBoundary = 10;                  //top cushion
@@ -72,6 +73,12 @@ public class CovidView extends JComponent {
         drawRecoveredData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
         drawConfirmedData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
 
+    }
+
+    public void clearDataInArrays() {
+        deathArray.clear();
+        recoveredArray.clear();
+        confirmedArray.clear();
     }
 
     private void drawConfirmedData(Graphics g, int totalXPixels, int totalYPixels, int maxYValue, int xLeftBoundary, int xIncrement, int yIncrement) {
@@ -149,4 +156,5 @@ public class CovidView extends JComponent {
 
         }
     }
+
 }

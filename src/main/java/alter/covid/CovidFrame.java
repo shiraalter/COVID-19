@@ -18,7 +18,7 @@ public class CovidFrame extends JFrame {
     public JLabel countryOutput;
     public JLabel deathsLabel;
     public JLabel recoveredLabel;
-    public JLabel dateLabel;
+    public JButton clearButton;
     public JButton enterButton;
 
     private JPanel topPanel;
@@ -51,9 +51,9 @@ public class CovidFrame extends JFrame {
         CovidUpdateService service = retrofit.create(CovidUpdateService.class);
         CovidUpdateController controller = new CovidUpdateController(service, view);
 
-        add(view, BorderLayout.CENTER);                                                 //add over here ?
+        add(view, BorderLayout.CENTER);
 
-        colors = new JLabel("Color Key: GREEN = recovered. ORANGE = confirmed. BLUE = deaths" );
+        colors = new JLabel("Color Key: GREEN = recovered. ORANGE = confirmed. BLUE = deaths");
         add(colors, BorderLayout.SOUTH);
 
 
@@ -78,7 +78,9 @@ public class CovidFrame extends JFrame {
         endField.setPreferredSize(new Dimension(80,20));
         //enter data button
         enterButton = new JButton("Enter");
-        enterButton.setPreferredSize(new Dimension(100,40));
+        enterButton.setPreferredSize(new Dimension(100,30));
+        clearButton = new JButton("Clear");
+        clearButton.setPreferredSize(new Dimension(100,30));
 
 
         topPanel.add(message);
@@ -90,15 +92,21 @@ public class CovidFrame extends JFrame {
         inputPanel.add(endField);
         topPanel.add(inputPanel, BorderLayout.CENTER);
         topPanel.add(enterButton);
+        topPanel.add(clearButton);
         countryOutput = new JLabel();
         topPanel.add(countryOutput);
         add(topPanel, BorderLayout.NORTH);
 
         //action listener --> retrieve data
         enterButton.addActionListener(actionEvent -> getData(controller));
+        clearButton.addActionListener(actionEvent -> clearArrays(view));
 
 
 
+    }
+
+    private void clearArrays(CovidView view) {
+        view.clearDataInArrays();
     }
 
     //request data from controller
