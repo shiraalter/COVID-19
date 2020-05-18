@@ -46,9 +46,8 @@ public class CovidView extends JComponent {
 
         //draw axis
         g.setColor(Color.BLACK);
-        g.drawLine(xLeftBoundary, yTopBoundary, xLeftBoundary, yBottomBoundary);
-        g.drawLine(xLeftBoundary, yBottomBoundary, xRightBoundary, yBottomBoundary);
-
+        g.drawLine(xLeftBoundary, yBottomBoundary, xLeftBoundary, yTopBoundary);         //y
+        g.drawLine(xLeftBoundary, yBottomBoundary, xRightBoundary, yBottomBoundary);    //x
 
         //calculate total pixels on x/y axis
         int totalXPixels = xRightBoundary - xLeftBoundary + 1;
