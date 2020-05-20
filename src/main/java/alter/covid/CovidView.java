@@ -36,7 +36,7 @@ public class CovidView extends JComponent {
         }
 
         //CREATE AXIS
-        int maxYValue = 300000;                   //max cases
+        int maxYValue = 30000;                   //max cases
         int xLeftBoundary = 70;                 //left cushion
         int xRightBoundary = getWidth() - 70;   //set x axis right boundary/cushion
         int yTopBoundary = 10;                  //top cushion
@@ -59,10 +59,13 @@ public class CovidView extends JComponent {
         int xIncrement = totalXPixels/covid.size();        // split by how many objects
         int yIncrement = totalYPixels/maxYValue;           //split y axis by max value (5000)
 
-        //draw graphs
+        //change the (0,0) coordinates to bottom left
+        g.translate(0, yBottomBoundary);
+
+        //draw graphs -->  y values negative for coordinate plane
         drawDeathData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
         drawRecoveredData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
-        drawConfirmedData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement);
+        drawConfirmedData(g, totalXPixels, totalYPixels,maxYValue, xLeftBoundary, xIncrement, yIncrement, yBottomBoundary);
 
     }
 
@@ -83,23 +86,28 @@ public class CovidView extends JComponent {
         confirmedArray.clear();
     }
 
-    private void drawConfirmedData(Graphics g, int totalXPixels, int totalYPixels, int maxYValue, int xLeftBoundary, int xIncrement, int yIncrement) {
+    private void drawConfirmedData(Graphics g, int totalXPixels, int totalYPixels, int maxYValue, int xLeftBoundary, int xIncrement, int yIncrement, int yBottomBoundary) {
+        Color confirmedColor = new Color(134, 94, 0, 195);
         int x1, x2, y1, y2;
 
-        //set origin coordinates
+        //set coordinates of first point on line
         x1 = xLeftBoundary;
-        y1 = confirmedArray.get(0)* yIncrement;  //y coordinate of first confirmed in array
+        y1 = confirmedArray.get(0)* totalYPixels/maxYValue;  //y coordinate of first confirmed in array
+
+
+
 
         //compute and plot points for recovered data
         for (int i = 0; i < confirmedArray.size(); i++) {
             x2 = xLeftBoundary + xIncrement * i;
-            y2 = confirmedArray.get(i) * yIncrement;
+            y2 = confirmedArray.get(i) * totalYPixels/maxYValue;
 
-            g.setColor(new Color(134, 94, 0, 195));
-            g.fillOval(x2, y2, 5, 5);
+
+            g.setColor(confirmedColor);
+            g.fillOval(x2, -y2, 5, 5);
 
             g.setColor(Color.ORANGE);
-            g.drawLine(x1, y1, x2, y2);
+            g.drawLine(x1, -y1, x2, -y2);
 
             //set coordinates for next data points
             x1 = x2;
@@ -121,10 +129,10 @@ public class CovidView extends JComponent {
             y2 = recoveredArray.get(i) * totalYPixels/maxYValue;
 
             g.setColor(Color.BLACK);                  //dots between data points
-            g.fillOval(x2,y2,5,5);
+            g.fillOval(x2,-y2,5,5);
 
             g.setColor(Color.GREEN);
-            g.drawLine(x1,y1,x2,y2);
+            g.drawLine(x1,-y1,x2,-y2);
 
             //set coordinates for next data points
             x1 = x2;
@@ -132,7 +140,6 @@ public class CovidView extends JComponent {
 
         }
     }
-
 
     private void drawDeathData(Graphics g, int totalXPixels, int totalYPixels, int maxYValue, int xLeftBoundary, int xIncrement, int yIncrement) {
         int x1, x2, y1, y2;
@@ -147,10 +154,10 @@ public class CovidView extends JComponent {
             y2 = deathArray.get(i) * totalYPixels/maxYValue;
 
             g.setColor(Color.RED);                  //dots between data points
-            g.fillOval(x2,y2,5,5);
+            g.fillOval(x2,-y2,5,5);
 
             g.setColor(Color.BLUE);
-            g.drawLine(x1,y1,x2,y2);
+            g.drawLine(x1,-y1,x2,-y2);
 
             //set coordinates for next data points
             x1 = x2;
